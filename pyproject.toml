@@ -1,0 +1,53 @@
+[tool.ruff]
+# Основные настройки
+line-length = 79
+target-version = "py312"
+
+[tool.ruff.lint]
+# Правила для проверки
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+
+# Игнорируемые правила
+ignore = [
+    "E501",  # line too long, handled by formatter
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+# Исключения
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    ".mypy_cache",
+    ".pytest_cache",
+]
+
+[tool.ruff.format]
+# Настройки форматирования (аналог black)
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 79
+known_first_party = ["book_asyncio"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true

@@ -1,0 +1,35 @@
+repos:
+  # Базовые проверки
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        name: Удаление пробелов в конце строк
+      - id: end-of-file-fixer
+        name: Добавление пустой строки в конце файла
+      - id: check-yaml
+        name: Проверка YAML файлов
+      - id: check-added-large-files
+        name: Проверка больших файлов
+      - id: check-merge-conflict
+        name: Проверка маркеров конфликтов слияния
+      - id: debug-statements
+        name: Проверка debug statements (pdb, ipdb и т.д.)
+
+  # Сортировка импортов (как в Makefile)
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        name: isort - сортировка импортов
+        args: ["--profile", "black"]
+
+  # Ruff для проверки и исправления кода (как в Makefile)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.8
+    hooks:
+      - id: ruff
+        name: ruff - проверка и исправление кода
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+        name: ruff - форматирование кода

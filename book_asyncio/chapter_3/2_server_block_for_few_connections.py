@@ -2,7 +2,6 @@ import socket
 
 from logger import logger
 
-
 server_socket = socket.socket(
     # Тип адреса (Имя хоста, номер порта)
     family=socket.AF_INET,
