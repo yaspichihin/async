@@ -1,15 +1,12 @@
 #! /usr/bin/env python3
 import asyncio
+import logging
 import signal
 import socket
-import sys
-from pathlib import Path
 
-# Добавляем путь для импорта модулей проекта
-sys.path.append(str(Path(__file__).parent.parent.parent))
+from book_asyncio.utils import configure_logging
 
-# Импорт модулей проекта
-from logger import logger  # noqa: E402
+logger = logging.getLogger(__name__)
 
 TASKS = []
 
@@ -31,7 +28,7 @@ async def close_tasks(tasks: list[asyncio.Task]):
     for waiter in waiters:
         try:
             await waiter
-        except TimeoutError:
+        except asyncio.TimeoutError:
             logger.debug("Задача %s не завершилась за 1 секунду", waiter)
         except Exception as e:
             logger.error("Неожиданная ошибка при завершении задачи: %s", e)
@@ -64,18 +61,21 @@ async def connection_listener(srv_sock, loop):
 
 
 async def main(loop: asyncio.AbstractEventLoop):
-    server_address = ("127.0.0.1", 6000)
+    server_address = ("127.0.0.1", 8000)
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.bind(server_address)
     server_socket.setblocking(False)
     server_socket.listen()
+    logger.info("Сервер слушает %s", server_address)
+
     for signame in ("SIGINT", "SIGTERM"):
         loop.add_signal_handler(getattr(signal, signame), shutdown)
     await connection_listener(server_socket, loop)
 
 
 if __name__ == "__main__":
+    configure_logging(level="DEBUG")
     try:
         loop: asyncio.AbstractEventLoop = asyncio.get_event_loop()
         loop.run_until_complete(main(loop))

@@ -1,3 +1,27 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "book-asyncio"
+version = "0.0.1"
+description = "Asyncio study code"
+requires-python = ">=3.12"
+dependencies = [
+  "aiohttp==3.12.15",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pre-commit==3.6.0",
+  "ruff==0.1.8",
+  "isort==5.13.2",
+  "mypy==1.8.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/book_asyncio"]
+
 [tool.ruff]
 # Основные настройки
 line-length = 79
