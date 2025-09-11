@@ -1,0 +1,17 @@
+services:
+  postgres:
+    container_name: asyncio_postgres
+    image: postgres:15
+    ports:
+      - 5450:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
+    driver: local
