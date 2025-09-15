@@ -6,6 +6,34 @@ from collections.abc import Callable
 from typing import Any
 
 
+def sync_timed():
+    def wrapper(func: Callable) -> Callable:
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            logger = logging.getLogger(__name__)
+            logger.debug(
+                "Выполняется %s с аргументами %s %s",
+                func.__name__,
+                args,
+                kwargs,
+            )
+            start = time.perf_counter_ns()
+            try:
+                return func(*args, **kwargs)
+            finally:
+                end = time.perf_counter_ns()
+                total = (end - start) * 1e-9
+                logger.debug(
+                    "Функция %s завершилась за %.4f с",
+                    func.__name__,
+                    total,
+                )
+
+        return wrapped
+
+    return wrapper
+
+
 def async_timed():
     def wrapper(func: Callable) -> Callable:
         @functools.wraps(func)
