@@ -8,3 +8,7 @@ __pycache__/
 .idea/
 *.pyc
 *.pyo
+
+# 1.8 Гб для анализа 1gram
+src/book_asyncio/chapter_6/googlebooks-eng-all-1gram-a
+src/book_asyncio/chapter_6/sync_1_gram.json
